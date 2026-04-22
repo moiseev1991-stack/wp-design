@@ -15,7 +15,7 @@ export default function PrivacyPage() {
       <h1 className="font-heading text-4xl font-bold text-[var(--text)] mb-6">Polityka prywatności</h1>
 
       <div className="prose prose-lg max-w-none prose-headings:font-heading">
-        <p className="text-[var(--text-muted)] text-sm">Ostatnia aktualizacja: 1 stycznia 2024 r.</p>
+        <p className="text-[var(--text-muted)] text-sm">Ostatnia aktualizacja: 1 stycznia 2026 r.</p>
 
         <h2>1. Administrator danych</h2>
         <p>
