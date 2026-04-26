@@ -5,11 +5,14 @@ import PostCard from '@/components/PostCard'
 import type { Metadata } from 'next'
 
 
+const homeTitle = 'Vulkan Vegas – Najlepsze Kasyno Online dla Polskich Graczy 2026'
+const homeDescription = 'Vulkan Vegas to lider wśród kasyn online dla polskich graczy – licencja MGA, bonus powitalny do 4000 PLN, błyskawiczne wypłaty BLIK i tysiące gier od topowych dostawców.'
+
 export const metadata: Metadata = {
-  title: `${siteConfig.name} – ${siteConfig.tagline}`,
-  description: siteConfig.description,
+  title: homeTitle,
+  description: homeDescription,
   alternates: { canonical: siteConfig.url + '/' },
-  openGraph: { title: siteConfig.name, description: siteConfig.description, url: siteConfig.url, type: 'website' },
+  openGraph: { title: homeTitle, description: homeDescription, url: siteConfig.url, type: 'website' },
 }
 
 export default function HomePage() {
