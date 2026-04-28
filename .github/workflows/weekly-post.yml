@@ -1,8 +1,10 @@
 name: Weekly Post Generation
 
 on:
-  schedule:
-    - cron: '0 10 * * 1'   # every Monday, 10:00 UTC
+  # Auto-generation disabled: site moved to casino niche, content is now hand-written.
+  # Re-enable by uncommenting the schedule and updating scripts/generate-post.mjs prompts.
+  # schedule:
+  #   - cron: '0 10 * * 1'   # every Monday, 10:00 UTC
   workflow_dispatch:
 
 jobs:
