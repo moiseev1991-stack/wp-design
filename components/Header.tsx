@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { categories } from '@/lib/categories'
 
 const navLinks = [
@@ -14,6 +14,25 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [catOpen, setCatOpen] = useState(false)
   const [mobileCatOpen, setMobileCatOpen] = useState(false)
+  const catRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!catOpen) return
+    function onPointer(e: MouseEvent) {
+      if (catRef.current && !catRef.current.contains(e.target as Node)) {
+        setCatOpen(false)
+      }
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setCatOpen(false)
+    }
+    document.addEventListener('mousedown', onPointer)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onPointer)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [catOpen])
 
   return (
     <header className="site-header sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[var(--border)] shadow-sm">
@@ -30,11 +49,7 @@ export default function Header() {
             Główna
           </Link>
 
-          <div
-            className="relative"
-            onMouseEnter={() => setCatOpen(true)}
-            onMouseLeave={() => setCatOpen(false)}
-          >
+          <div ref={catRef} className="relative">
             <button
               type="button"
               className="text-sm font-medium px-4 py-2 rounded-lg transition-all text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-section)] flex items-center gap-1"
@@ -50,6 +65,7 @@ export default function Header() {
                   <Link
                     key={cat.slug}
                     href={`/kategoria/${cat.slug}/`}
+                    onClick={() => setCatOpen(false)}
                     className="flex items-center gap-3 px-4 py-2.5 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--bg-section)] transition-colors"
                   >
                     <span className="text-lg">{cat.icon}</span>
@@ -59,6 +75,7 @@ export default function Header() {
                 <div className="border-t border-[var(--border)] mt-2 pt-2">
                   <Link
                     href="/kategoria/"
+                    onClick={() => setCatOpen(false)}
                     className="flex items-center justify-end gap-1 px-4 py-2 text-xs text-[var(--accent)] font-semibold hover:gap-2 transition-all"
                   >
                     Wszystkie kategorie →
