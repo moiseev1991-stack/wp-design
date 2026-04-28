@@ -39,6 +39,7 @@ export default function Footer() {
                 { label: 'O nas', href: '/o-nas/' },
                 { label: 'Kontakt', href: '/kontakt/' },
                 { label: 'Polityka prywatności', href: '/polityka-prywatnosci/' },
+                { label: 'Mapa strony', href: '/mapa-strony/' },
               ].map(l => (
                 <Link key={l.href} href={l.href} className="text-sm text-gray-400 hover:text-white transition-colors">
                   {l.label}

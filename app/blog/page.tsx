@@ -1,36 +1,27 @@
-import { getAllPosts } from '@/lib/posts'
 import { siteConfig } from '@/lib/config'
-import PostCard from '@/components/PostCard'
-import Breadcrumbs from '@/components/Breadcrumbs'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Blog – Wszystkie artykuły',
-  description: 'Wszystkie artykuły WP Design – recenzje kasyn, bonusy, sloty, jackpoty, gry stołowe, płatności i mobilne kasyna online dla polskich graczy.',
-  alternates: { canonical: `${siteConfig.url}/blog/` },
+  title: 'Przekierowanie',
+  description: 'Strona przeniesiona do indeksu kategorii.',
+  alternates: { canonical: `${siteConfig.url}/kategoria/` },
+  robots: { index: false, follow: true },
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts()
-
+export default function BlogIndexRedirect() {
+  const target = '/kategoria/'
+  const script = `window.location.replace(${JSON.stringify(target)});`
   return (
-    <div className="archive blog max-w-6xl mx-auto px-4 sm:px-6 py-10">
-      <Breadcrumbs items={[{ label: 'Blog', href: '/blog/' }]} />
-
-      <header className="page-header mb-10">
-        <h1 className="page-title font-heading text-4xl font-bold text-[var(--text)]">
-          Blog – Wszystkie artykuły
-        </h1>
-        <p className="text-[var(--text-muted)] mt-3 max-w-2xl">
-          Niezależne recenzje, bonusy, sloty, jackpoty, gry stołowe, płatności i mobilne kasyna — wszystkie artykuły WP Design w jednym miejscu.
-        </p>
-      </header>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-        {posts.map(post => (
-          <PostCard key={post.slug} post={post} />
-        ))}
-      </div>
+    <div className="max-w-2xl mx-auto px-6 py-20 text-center">
+      <noscript>
+        <meta httpEquiv="refresh" content={`0; url=${target}`} />
+      </noscript>
+      <script dangerouslySetInnerHTML={{ __html: script }} />
+      <h1 className="font-heading text-2xl font-bold text-[var(--text)] mb-4">Strona została przeniesiona</h1>
+      <p className="text-[var(--text-muted)] mb-6">
+        Indeks artykułów znajdziesz teraz w sekcji{' '}
+        <a className="text-[var(--accent)] underline" href={target}>Kategorie</a>.
+      </p>
     </div>
   )
 }

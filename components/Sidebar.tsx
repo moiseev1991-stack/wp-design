@@ -27,7 +27,7 @@ export default function Sidebar({ recentPosts }: Props) {
             <li key={post.slug} className="flex gap-3 items-start p-4 hover:bg-[var(--bg-section)] transition-colors">
               <span className="text-2xl mt-0.5 shrink-0">{post.emoji}</span>
               <div className="min-w-0">
-                <Link href={`/blog/${post.slug}/`} className="text-sm font-medium text-[var(--text)] hover:text-[var(--accent)] transition-colors leading-snug line-clamp-2 block">
+                <Link href={`/${post.slug}/`} className="text-sm font-medium text-[var(--text)] hover:text-[var(--accent)] transition-colors leading-snug line-clamp-2 block">
                   {post.title}
                 </Link>
                 <time className="text-xs text-[var(--text-muted)] mt-0.5 block">{formatDate(post.date)}</time>

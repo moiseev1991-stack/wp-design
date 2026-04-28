@@ -71,7 +71,7 @@ export default function HomePage() {
               Artykuły i recenzje
             </h2>
           </div>
-          <Link href="/blog/" className="hidden sm:inline-flex items-center gap-1.5 text-sm text-[var(--accent)] font-semibold hover:gap-3 transition-all">
+          <Link href="/kategoria/" className="hidden sm:inline-flex items-center gap-1.5 text-sm text-[var(--accent)] font-semibold hover:gap-3 transition-all">
             Wszystkie artykuły <span>→</span>
           </Link>
         </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
         </div>
 
         <div className="mt-10 flex justify-center sm:hidden">
-          <Link href="/blog/" className="text-sm text-[var(--accent)] font-semibold border border-[var(--accent)] px-6 py-2.5 rounded-xl hover:bg-[var(--accent)] hover:text-white transition-colors">
+          <Link href="/kategoria/" className="text-sm text-[var(--accent)] font-semibold border border-[var(--accent)] px-6 py-2.5 rounded-xl hover:bg-[var(--accent)] hover:text-white transition-colors">
             Wszystkie artykuły →
           </Link>
         </div>
