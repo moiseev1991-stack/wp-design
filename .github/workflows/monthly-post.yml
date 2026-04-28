@@ -1,11 +1,14 @@
-name: Weekly Post Generation
+name: Monthly Post Generation
 
 on:
-  # Auto-generation disabled: site moved to casino niche, content is now hand-written.
-  # Re-enable by uncommenting the schedule and updating scripts/generate-post.mjs prompts.
-  # schedule:
-  #   - cron: '0 10 * * 1'   # every Monday, 10:00 UTC
+  schedule:
+    # 1st of each month, 09:00 UTC
+    - cron: '0 9 1 * *'
   workflow_dispatch:
+
+concurrency:
+  group: monthly-post
+  cancel-in-progress: false
 
 jobs:
   generate:
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,4 +37,9 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git add content/posts/ public/illustrations/
-          git diff --staged --quiet || (git commit -m "content: add weekly auto post" && git push)
+          if git diff --staged --quiet; then
+            echo "No changes to commit (generator produced nothing new)."
+          else
+            git commit -m "content: add monthly auto post"
+            git push origin HEAD:master
+          fi
