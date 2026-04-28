@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { siteConfig } from '@/lib/config'
+import { categories } from '@/lib/categories'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -19,11 +20,10 @@ export default function Footer() {
           <div className="sm:col-span-1">
             <div className="text-2xl font-bold font-heading text-[var(--accent-light)] mb-3">WP Design</div>
             <p className="text-sm text-gray-400 leading-relaxed mb-4">
-              Portal o aranżacji wnętrz, designie i stylu życia dla polskich czytelników.
+              Niezależny portal o kasynach online dla polskich graczy – recenzje, bonusy, sloty i poradniki.
             </p>
             <div className="flex gap-3">
-              {/* Decorative social placeholders */}
-              {['🌿', '📐', '🏡'].map(icon => (
+              {['🎰', '🎁', '🃏'].map(icon => (
                 <span key={icon} className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-sm cursor-default">{icon}</span>
               ))}
             </div>
@@ -34,7 +34,8 @@ export default function Footer() {
             <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Nawigacja</div>
             <nav className="flex flex-col gap-2.5">
               {[
-                { label: 'Blog', href: '/blog/' },
+                { label: 'Główna', href: '/' },
+                { label: 'Kategorie', href: '/kategoria/' },
                 { label: 'O nas', href: '/o-nas/' },
                 { label: 'Kontakt', href: '/kontakt/' },
                 { label: 'Polityka prywatności', href: '/polityka-prywatnosci/' },
@@ -50,9 +51,14 @@ export default function Footer() {
           <div>
             <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">Tematy</div>
             <div className="flex flex-wrap gap-2">
-              {['Minimalizm', 'Skandynawski', 'Home Office', 'DIY', 'Oświetlenie', 'Kolory'].map(tag => (
-                <Link key={tag} href="/blog/" className="text-xs bg-white/10 hover:bg-white/20 text-gray-300 px-3 py-1.5 rounded-full transition-colors border border-white/10">
-                  {tag}
+              {categories.map(cat => (
+                <Link
+                  key={cat.slug}
+                  href={`/kategoria/${cat.slug}/`}
+                  className="text-xs bg-white/10 hover:bg-white/20 text-gray-300 px-3 py-1.5 rounded-full transition-colors border border-white/10 inline-flex items-center gap-1"
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.label}</span>
                 </Link>
               ))}
             </div>

@@ -1,10 +1,34 @@
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import type { Post } from '@/lib/posts'
 
 interface Props {
   post: Post
   size?: 'normal' | 'large'
   customExcerpt?: React.ReactNode
+  moneyCTA?: { url: string }
+}
+
+const BRAND_REGEX = /Vulkan (?:Vegas|Kasyno)/
+
+function renderDescription(text: string, money?: { url: string }): ReactNode {
+  if (!money) return text
+  const m = text.match(BRAND_REGEX)
+  if (!m || m.index === undefined) return text
+  return (
+    <>
+      {text.slice(0, m.index)}
+      <a
+        href={money.url}
+        target="_blank"
+        rel="sponsored noopener noreferrer"
+        className="text-[var(--accent)] font-semibold underline decoration-[var(--accent)]/40 underline-offset-2 hover:text-[var(--accent-dark)] transition-colors"
+      >
+        {m[0]}
+      </a>
+      {text.slice(m.index + m[0].length)}
+    </>
+  )
 }
 
 const THEMES: Record<string, {
@@ -216,7 +240,7 @@ function readingTime(content: string) {
   return Math.max(1, Math.ceil(content.split(/\s+/).length / 200))
 }
 
-export default function PostCard({ post, size = 'normal', customExcerpt }: Props) {
+export default function PostCard({ post, size = 'normal', customExcerpt, moneyCTA }: Props) {
   const theme = THEMES[post.emoji] ?? DEFAULT_THEME
   const [c1, c2] = theme.bg
   const mins = readingTime(post.content)
@@ -263,8 +287,8 @@ export default function PostCard({ post, size = 'normal', customExcerpt }: Props
           <Link href={`/blog/${post.slug}/`}>{post.title}</Link>
         </h3>
 
-        <p className="text-sm text-[var(--text-muted)] leading-relaxed line-clamp-2 flex-1 mb-4 wp-block-paragraph">
-          {customExcerpt ?? post.description}
+        <p className="text-sm text-[var(--text-muted)] leading-relaxed line-clamp-3 flex-1 mb-4 wp-block-paragraph">
+          {customExcerpt ?? renderDescription(post.description, moneyCTA)}
         </p>
 
         <Link

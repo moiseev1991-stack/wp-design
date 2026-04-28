@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/posts'
 import { siteConfig } from '@/lib/config'
+import { categories } from '@/lib/categories'
 
 export async function GET() {
   const posts = getAllPosts()
@@ -8,10 +9,17 @@ export async function GET() {
   const staticPages: { url: string; priority: string; changefreq: string; lastmod?: string }[] = [
     { url: `${base}/`, priority: '1.0', changefreq: 'weekly' },
     { url: `${base}/blog/`, priority: '0.9', changefreq: 'daily' },
+    { url: `${base}/kategoria/`, priority: '0.8', changefreq: 'weekly' },
     { url: `${base}/o-nas/`, priority: '0.5', changefreq: 'monthly' },
     { url: `${base}/kontakt/`, priority: '0.5', changefreq: 'monthly' },
     { url: `${base}/polityka-prywatnosci/`, priority: '0.5', changefreq: 'monthly' },
   ]
+
+  const categoryEntries: { url: string; priority: string; changefreq: string }[] = categories.map(c => ({
+    url: `${base}/kategoria/${c.slug}/`,
+    priority: '0.7',
+    changefreq: 'weekly',
+  }))
 
   const postEntries: { url: string; priority: string; changefreq: string; lastmod?: string }[] = posts.map(p => ({
     url: `${base}/blog/${p.slug}/`,
@@ -20,12 +28,12 @@ export async function GET() {
     lastmod: p.date,
   }))
 
-  const allEntries = [...staticPages, ...postEntries]
+  const allEntries = [...staticPages, ...categoryEntries, ...postEntries]
 
   const urlsXml = allEntries.map(e => `
   <url>
     <loc>${e.url}</loc>
-    ${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}
+    ${'lastmod' in e && e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}
     <changefreq>${e.changefreq}</changefreq>
     <priority>${e.priority}</priority>
   </url>`).join('')
